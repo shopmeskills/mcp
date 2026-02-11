@@ -1,0 +1,31 @@
+{
+  "name": "shopme-mcp",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Shopme MCP Servers & Agent Skills for cross-border e-commerce",
+  "scripts": {
+    "build": "pnpm -r run build",
+    "dev": "pnpm -r run dev",
+    "lint": "pnpm -r run lint",
+    "clean": "pnpm -r exec rm -rf build dist"
+  },
+  "keywords": [
+    "mcp",
+    "agent-skills",
+    "ecommerce",
+    "logistics",
+    "cross-border"
+  ],
+  "author": "shopme",
+  "license": "MIT",
+  "packageManager": "pnpm@9.14.2+sha512.6e2baf77d06b9362294152c851c4f278ede37ab1eba3a55fda317a4a17b209f4dbb973fb250a77abc463a341fcb1f17f17cfa24091c4eb319cda0d9b84278387",
+  "devDependencies": {
+    "@types/node": "^25.2.3",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.26.0",
+    "zod": "^4.3.6"
+  }
+}
