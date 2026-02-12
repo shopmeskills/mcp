@@ -56,6 +56,7 @@ async function callApi(
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: new URLSearchParams(baseParams).toString(),
+    signal: AbortSignal.timeout(20000),
   });
 
   if (!response.ok) {

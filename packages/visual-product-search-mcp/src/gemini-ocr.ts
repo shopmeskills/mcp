@@ -59,46 +59,8 @@ export async function analyzeImageWithGemini(
 }
 Return ONLY the JSON, no other text.`;
 
-  const response = await fetch(`${GEMINI_API_BASE}?key=${apiKey}`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      contents: [
-        {
-          parts: [
-            { text: prompt },
-            {
-              inlineData: undefined,
-              fileData: undefined,
-              // Use image URL directly
-            },
-          ],
-        },
-      ],
-      generationConfig: {
-        temperature: 0.1,
-        maxOutputTokens: 1024,
-      },
-    }),
-  });
-
-  // If direct URL doesn't work, fetch the image and send as base64
-  if (!response.ok) {
-    return analyzeImageWithBase64(imageUrl, apiKey, prompt);
-  }
-
-  const data = (await response.json()) as {
-    candidates?: Array<{
-      content?: {
-        parts?: Array<{ text?: string }>;
-      };
-    }>;
-  };
-
-  const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-  if (!text) throw new Error("No response from Gemini");
-
-  return parseGeminiResponse(text);
+  // Gemini doesn't support direct image URLs in all cases, so fetch and send as base64
+  return analyzeImageWithBase64(imageUrl, apiKey, prompt);
 }
 
 async function analyzeImageWithBase64(

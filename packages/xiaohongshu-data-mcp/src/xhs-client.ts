@@ -125,6 +125,7 @@ export async function searchNotes(
     method: "POST",
     headers: getHeaders(config.cookie),
     body: JSON.stringify(body),
+    signal: AbortSignal.timeout(15000),
   });
 
   if (!response.ok) {
@@ -206,6 +207,7 @@ export async function getNoteDetail(noteId: string): Promise<XhsNote> {
   const response = await fetch(`${XHS_API_BASE}/v1/note/${noteId}`, {
     method: "GET",
     headers: getHeaders(config.cookie),
+    signal: AbortSignal.timeout(15000),
   });
 
   if (!response.ok) {
@@ -283,6 +285,7 @@ export async function searchProducts(
     {
       method: "GET",
       headers: getHeaders(config.cookie),
+      signal: AbortSignal.timeout(15000),
     },
   );
 
@@ -336,6 +339,7 @@ export async function getCreatorInfo(userId: string): Promise<XhsCreator> {
   const response = await fetch(`${XHS_API_BASE}/v1/user/${userId}`, {
     method: "GET",
     headers: getHeaders(config.cookie),
+    signal: AbortSignal.timeout(15000),
   });
 
   if (!response.ok) {

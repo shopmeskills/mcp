@@ -42,7 +42,7 @@ This skill works best with the companion MCP server. Add to your MCP config:
 
 Get a free 17track API key at https://api.17track.net
 
-Install this skill: `npx skills add shopmeskills/shopme-mcp`
+Install this skill: `npx skills add shopmeskills/mcp`
 
 ## Available Tools
 

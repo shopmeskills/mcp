@@ -76,6 +76,7 @@ async function callApi(
     }
     const response = await fetch(url.toString(), {
       headers: { "Content-Type": "application/json" },
+      signal: AbortSignal.timeout(20000),
     });
     if (!response.ok) throw new Error(`Taobao API HTTP ${response.status}`);
     return response.json();
@@ -85,6 +86,7 @@ async function callApi(
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: new URLSearchParams(baseParams).toString(),
+    signal: AbortSignal.timeout(20000),
   });
   if (!response.ok) throw new Error(`Taobao API HTTP ${response.status}`);
   return response.json();

@@ -39,9 +39,10 @@ export async function queryTracking(
       body: JSON.stringify([
         {
           number: trackingNumber,
-          carrier: carrier !== "unknown" ? undefined : undefined,
+          ...(carrier !== "unknown" ? { carrier_new: carrier } : {}),
         },
       ]),
+      signal: AbortSignal.timeout(15000),
     },
   );
 
@@ -62,6 +63,7 @@ export async function queryTracking(
         "17token": apiKey,
       },
       body: JSON.stringify([{ number: trackingNumber }]),
+      signal: AbortSignal.timeout(15000),
     },
   );
 
@@ -161,6 +163,7 @@ export async function queryTrackingFallback(
           "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
       },
       body: formData.toString(),
+      signal: AbortSignal.timeout(15000),
     });
 
     if (!response.ok) {

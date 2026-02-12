@@ -7,7 +7,7 @@ Cross-border e-commerce toolkit for AI agents. Provides MCP servers (tools) and 
 Install all skills at once:
 
 ```bash
-npx skills add shopmeskills/shopme-mcp
+npx skills add shopmeskills/mcp
 ```
 
 | Skill | Description |
