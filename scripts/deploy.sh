@@ -67,9 +67,15 @@ echo "💬 Commit: $COMMIT_MSG"
 git commit -m "$COMMIT_MSG"
 echo ""
 
-# 7. 推送
+# 7. 推送（使用 token 认证 shopmeskills 组织）
 echo "🚀 Pushing to origin..."
-git push origin main
+TOKEN_FILE="$(git rev-parse --show-toplevel)/.git-token"
+if [ -f "$TOKEN_FILE" ]; then
+  TOKEN=$(cat "$TOKEN_FILE" | tr -d '[:space:]')
+  git -c "http.https://github.com/.extraheader=Authorization: basic $(echo -n "shopmeskills:$TOKEN" | base64)" push origin main
+else
+  git push origin main
+fi
 echo ""
 
 echo "✅ Deploy complete!"
