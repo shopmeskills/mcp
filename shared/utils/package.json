@@ -9,5 +9,8 @@
     "build": "tsc",
     "dev": "tsc --watch"
   },
-  "files": ["build"]
+  "files": ["build"],
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
 }
