@@ -1,7 +1,7 @@
 #!/usr/bin/env npx tsx
 /**
  * Test script for logistics-tracking skill.
- * Run from repo root: pnpm --filter @shopme/logistics-tracking-mcp run test:skill
+ * Run from repo root: pnpm --filter @shopmeagent/logistics-tracking-mcp run test:skill
  * Or: cd packages/logistics-tracking-mcp && npx tsx scripts/test-skill.ts
  *
  * Tests:

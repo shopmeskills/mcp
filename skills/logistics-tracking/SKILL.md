@@ -8,7 +8,7 @@ license: MIT
 metadata:
   author: shopme
   version: "1.0.0"
-  mcp-server: "@shopme/logistics-tracking-mcp"
+  mcp-server: "@shopmeagent/logistics-tracking-mcp"
 ---
 
 # Logistics Tracking
@@ -39,7 +39,7 @@ You deploy the MCP HTTP server with `TRACK17_API_KEY` on your server. End users 
 
 ```bash
 export TRACK17_API_KEY=your-17track-api-key
-npx -y @shopme/logistics-tracking-mcp serve
+npx -y @shopmeagent/logistics-tracking-mcp serve
 
 # Default: http://0.0.0.0:3000/mcp
 # Override with PORT and HOST env vars
@@ -71,7 +71,7 @@ Users only need a tracking number — no API key required on their end.
   "mcpServers": {
     "logistics-tracking": {
       "command": "npx",
-      "args": ["-y", "@shopme/logistics-tracking-mcp"]
+      "args": ["-y", "@shopmeagent/logistics-tracking-mcp"]
     }
   }
 }
@@ -84,7 +84,7 @@ Users only need a tracking number — no API key required on their end.
   "mcpServers": {
     "logistics-tracking": {
       "command": "npx",
-      "args": ["-y", "@shopme/logistics-tracking-mcp"],
+      "args": ["-y", "@shopmeagent/logistics-tracking-mcp"],
       "env": {
         "TRACK17_API_KEY": "your-17track-api-key"
       }

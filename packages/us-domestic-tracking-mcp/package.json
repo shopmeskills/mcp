@@ -1,5 +1,5 @@
 {
-  "name": "@shopme/us-domestic-tracking-mcp",
+  "name": "@shopmeagent/us-domestic-tracking-mcp",
   "version": "1.0.0",
   "description": "MCP server for US domestic package tracking (UPS, USPS, FedEx) via official APIs. For government and OpenClaw use.",
   "type": "module",

@@ -1,5 +1,5 @@
 {
-  "name": "@shopme/logistics-tracking-mcp",
+  "name": "@shopmeagent/logistics-tracking-mcp",
   "version": "1.0.0",
   "description": "MCP server for international package tracking with multi-carrier support",
   "type": "module",

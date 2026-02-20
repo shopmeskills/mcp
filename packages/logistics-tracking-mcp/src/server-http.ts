@@ -3,7 +3,7 @@
 /**
  * HTTP server entry for logistics-tracking MCP.
  * Deploy with TRACK17_API_KEY so clients can connect via URL without their own key.
- * Run: npx @shopme/logistics-tracking-mcp serve
+ * Run: npx @shopmeagent/logistics-tracking-mcp serve
  * Set TRACK17_API_KEY in env on the server so users don't need any key.
  */
 

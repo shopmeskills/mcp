@@ -15,7 +15,7 @@ For **US and European government** or enterprise: track **US domestic** packages
   "mcpServers": {
     "us-domestic-tracking": {
       "command": "npx",
-      "args": ["-y", "@shopme/us-domestic-tracking-mcp"],
+      "args": ["-y", "@shopmeagent/us-domestic-tracking-mcp"],
       "env": {
         "USPS_CONSUMER_KEY": "your-usps-consumer-key",
         "USPS_CONSUMER_SECRET": "your-usps-consumer-secret",
@@ -44,7 +44,7 @@ Set `TRACK17_API_KEY` on your server and run the HTTP service. End users connect
 
 ```bash
 export TRACK17_API_KEY=your-17track-api-key
-npx -y @shopme/logistics-tracking-mcp serve
+npx -y @shopmeagent/logistics-tracking-mcp serve
 # Default: http://0.0.0.0:3000/mcp (override with PORT, HOST)
 ```
 
@@ -70,7 +70,7 @@ See `skills/logistics-tracking/SKILL.md` for full details.
   "mcpServers": {
     "logistics-tracking": {
       "command": "npx",
-      "args": ["-y", "@shopme/logistics-tracking-mcp"]
+      "args": ["-y", "@shopmeagent/logistics-tracking-mcp"]
     }
   }
 }
@@ -83,7 +83,7 @@ See `skills/logistics-tracking/SKILL.md` for full details.
   "mcpServers": {
     "logistics-tracking": {
       "command": "npx",
-      "args": ["-y", "@shopme/logistics-tracking-mcp"],
+      "args": ["-y", "@shopmeagent/logistics-tracking-mcp"],
       "env": {
         "TRACK17_API_KEY": "your-17track-api-key"
       }

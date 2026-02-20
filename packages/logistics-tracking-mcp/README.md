@@ -1,4 +1,4 @@
-# @shopme/logistics-tracking-mcp
+# @shopmeagent/logistics-tracking-mcp
 
 MCP server for international package tracking. Supports 3100+ carriers via [17track](https://www.17track.net).
 
@@ -11,7 +11,7 @@ MCP server for international package tracking. Supports 3100+ carriers via [17tr
   "mcpServers": {
     "logistics-tracking": {
       "command": "npx",
-      "args": ["-y", "@shopme/logistics-tracking-mcp"]
+      "args": ["-y", "@shopmeagent/logistics-tracking-mcp"]
     }
   }
 }
@@ -24,7 +24,7 @@ MCP server for international package tracking. Supports 3100+ carriers via [17tr
   "mcpServers": {
     "logistics-tracking": {
       "command": "npx",
-      "args": ["-y", "@shopme/logistics-tracking-mcp"],
+      "args": ["-y", "@shopmeagent/logistics-tracking-mcp"],
       "env": {
         "TRACK17_API_KEY": "your-17track-api-key"
       }
@@ -41,7 +41,7 @@ Deploy with your API key so clients connect via URL without needing their own ke
 
 ```bash
 export TRACK17_API_KEY=your-key
-npx -y @shopme/logistics-tracking-mcp serve
+npx -y @shopmeagent/logistics-tracking-mcp serve
 # Listening at http://0.0.0.0:3000/mcp
 ```
 

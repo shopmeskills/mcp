@@ -8,7 +8,7 @@ license: MIT
 metadata:
   author: shopme
   version: "1.0.0"
-  mcp-server: "@shopme/us-domestic-tracking-mcp"
+  mcp-server: "@shopmeagent/us-domestic-tracking-mcp"
 ---
 
 # US Domestic & Government Logistics Tracking
@@ -24,7 +24,7 @@ Track packages via **US domestic carriers** (UPS, USPS, FedEx) using **official 
 
 ## When NOT to Use
 
-- **International / cross-border** tracking (China Post, Yanwen, Cainiao, etc.) → use `logistics-tracking` skill and `@shopme/logistics-tracking-mcp` instead
+- **International / cross-border** tracking (China Post, Yanwen, Cainiao, etc.) → use `logistics-tracking` skill and `@shopmeagent/logistics-tracking-mcp` instead
 - User has no API keys and expects a “no-key” fallback → this server requires official credentials
 
 ## MCP Server Setup (OpenClaw)
@@ -36,7 +36,7 @@ Add the server to your OpenClaw MCP config (or `mcp.json` / `claude_desktop_conf
   "mcpServers": {
     "us-domestic-tracking": {
       "command": "npx",
-      "args": ["-y", "@shopme/us-domestic-tracking-mcp"],
+      "args": ["-y", "@shopmeagent/us-domestic-tracking-mcp"],
       "env": {
         "USPS_CONSUMER_KEY": "your-usps-consumer-key",
         "USPS_CONSUMER_SECRET": "your-usps-consumer-secret",
