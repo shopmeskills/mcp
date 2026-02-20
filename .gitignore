@@ -6,3 +6,4 @@ dist/
 .env.local
 .DS_Store
 .git-token
+17track-scripts-dump/

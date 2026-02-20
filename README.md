@@ -2,19 +2,36 @@
 
 Cross-border e-commerce toolkit for AI agents. Provides MCP servers (tools) and Agent Skills (knowledge).
 
-## 🚚 Logistics Tracking
+---
 
-Track international packages across 20+ carriers with auto-detection.
+## 🌐 International Logistics Tracking
 
-### Install Skill
+Track packages from **3100+ carriers** worldwide (China Post, DHL, FedEx, UPS, Yanwen, Cainiao, SF Express, etc.) via 17track.
 
-```bash
-npx skills add shopmeskills/mcp
+**Two modes:**
+- **Without API key**: uses Playwright (headless browser) to fetch tracking data — just install and go.
+- **With `TRACK17_API_KEY`**: calls 17track official API — faster and more reliable for heavy use.
+
+### Quick Start (no API key)
+
+```json
+{
+  "mcpServers": {
+    "logistics-tracking": {
+      "command": "npx",
+      "args": ["-y", "@shopme/logistics-tracking-mcp"]
+    }
+  }
+}
 ```
 
-### MCP Server Setup
+After first install, download the browser once:
 
-Add to your `.cursor/mcp.json`, `claude_desktop_config.json`, or equivalent:
+```bash
+npx playwright install chromium
+```
+
+### With API Key (recommended for heavy use)
 
 ```json
 {
@@ -23,16 +40,69 @@ Add to your `.cursor/mcp.json`, `claude_desktop_config.json`, or equivalent:
       "command": "npx",
       "args": ["-y", "@shopme/logistics-tracking-mcp"],
       "env": {
-        "TRACK17_API_KEY": "your-api-key"
+        "TRACK17_API_KEY": "your-17track-api-key"
       }
     }
   }
 }
 ```
 
-Get a free 17track API key at https://api.17track.net
+Free API key: https://api.17track.net
 
-### Available Tools
+### HTTP Server Mode (deploy once, users need no key)
+
+```bash
+export TRACK17_API_KEY=your-key
+npx -y @shopme/logistics-tracking-mcp serve
+# http://0.0.0.0:3000/mcp
+```
+
+Users connect via Streamable HTTP:
+
+```json
+{
+  "mcpServers": {
+    "logistics-tracking": {
+      "type": "streamable-http",
+      "url": "https://your-server.com/mcp"
+    }
+  }
+}
+```
+
+See `skills/logistics-tracking/SKILL.md` for full documentation.
+
+---
+
+## 🚚 US Domestic Tracking (Government / Enterprise)
+
+Track **US domestic** packages (UPS, USPS) via **official APIs only**. No third-party aggregators. Designed for OpenClaw and government deployments.
+
+```json
+{
+  "mcpServers": {
+    "us-domestic-tracking": {
+      "command": "npx",
+      "args": ["-y", "@shopme/us-domestic-tracking-mcp"],
+      "env": {
+        "USPS_CONSUMER_KEY": "your-usps-consumer-key",
+        "USPS_CONSUMER_SECRET": "your-usps-consumer-secret",
+        "UPS_CLIENT_ID": "your-ups-client-id",
+        "UPS_CLIENT_SECRET": "your-ups-client-secret"
+      }
+    }
+  }
+}
+```
+
+- **USPS**: [developers.usps.com](https://developers.usps.com) (Tracking 3.2, OAuth)
+- **UPS**: [developer.ups.com](https://developer.ups.com) (Tracking API, OAuth)
+
+See `skills/us-domestic-tracking/SKILL.md` for details.
+
+---
+
+## Available Tools
 
 | Tool | Description |
 |------|-------------|
@@ -41,31 +111,22 @@ Get a free 17track API key at https://api.17track.net
 | `batch_track` | Track up to 40 packages at once |
 | `explain_status` | Explain tracking status codes in English and Chinese |
 
-### Supported Carriers
+## Supported Carriers
 
 China Post, China EMS, SF Express, Yanwen, Cainiao, YTO, STO, ZTO, Yunda, Best Express, DHL, FedEx, UPS, USPS, Royal Mail, Japan Post, Korea Post, Australia Post, Singapore Post, Hong Kong Post, Aramex, DPD, and more.
 
 ## Development
 
 ```bash
-# Install dependencies
 pnpm install
-
-# Build
 pnpm build
 
-# Develop
-cd packages/logistics-tracking-mcp
-pnpm dev
+# Develop international logistics MCP
+cd packages/logistics-tracking-mcp && pnpm dev
+
+# Develop US domestic MCP
+cd packages/us-domestic-tracking-mcp && pnpm dev
 ```
-
-## Upcoming Skills (in development)
-
-- `cn-ecommerce-search` — Search products on Taobao, 1688, AliExpress
-- `visual-product-search` — Find products by image
-- `xiaohongshu-data` — Xiaohongshu note and product search
-- `cross-border-price-compare` — Price comparison with landed cost
-- `product-recommendation` — AI-powered product scoring
 
 ## License
 

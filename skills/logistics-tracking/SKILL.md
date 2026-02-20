@@ -1,8 +1,8 @@
 ---
 name: logistics-tracking
 description: >
-  Track international packages across 20+ carriers including China Post, DHL, FedEx, UPS, Yanwen, and Cainiao.
-  Detect carrier from tracking number format. Explain logistics statuses like customs clearance, transit, and delivery exceptions.
+  Track international packages by tracking number. Supports 3100+ carriers via 17track.
+  Works without API key (uses Playwright browser), or with TRACK17_API_KEY for faster results.
   Use when the user asks about package tracking, shipment status, delivery time, or logistics queries.
 license: MIT
 metadata:
@@ -11,9 +11,9 @@ metadata:
   mcp-server: "@shopme/logistics-tracking-mcp"
 ---
 
-# International Logistics Tracking
+# Logistics Tracking（国际物流追踪）
 
-Track packages across borders with carrier auto-detection and status explanation.
+Track international packages by tracking number. Supports 3100+ carriers (China Post, DHL, FedEx, UPS, Yanwen, Cainiao, SF Express, etc.).
 
 ## When to Use
 
@@ -22,9 +22,38 @@ Track packages across borders with carrier auto-detection and status explanation
 - User asks about customs clearance or logistics exceptions
 - User needs to track multiple packages at once
 
-## MCP Server Setup
+## How It Works
 
-This skill works best with the companion MCP server. Add to your MCP config:
+| Mode | Requirements | Speed | Stability |
+|------|-------------|-------|-----------|
+| **With API Key** | `TRACK17_API_KEY` | Fast (~2s) | Stable |
+| **Without Key** | `playwright` + chromium | Slower (~10s) | Stable |
+
+- **With key**: calls 17track official API directly — fastest and most reliable.
+- **Without key**: uses Playwright to open a real browser, navigate to 17track, and capture the tracking data — bypasses all anti-bot checks.
+
+## Quick Start (no API key needed)
+
+```json
+{
+  "mcpServers": {
+    "logistics-tracking": {
+      "command": "npx",
+      "args": ["-y", "@shopme/logistics-tracking-mcp"]
+    }
+  }
+}
+```
+
+After first install, run once to download the browser:
+
+```bash
+npx playwright install chromium
+```
+
+That's it. Now you can track packages by just providing a tracking number.
+
+## With API Key (faster, recommended for heavy use)
 
 ```json
 {
@@ -40,9 +69,30 @@ This skill works best with the companion MCP server. Add to your MCP config:
 }
 ```
 
-Get a free 17track API key at https://api.17track.net
+Get a free API key at https://api.17track.net
 
-Install this skill: `npx skills add shopmeskills/mcp`
+## HTTP Server Mode (users connect via URL, no key needed on their side)
+
+Deploy with your API key, let users connect key-free:
+
+```bash
+export TRACK17_API_KEY=your-key
+npx -y @shopme/logistics-tracking-mcp serve
+# Listening on http://0.0.0.0:3000/mcp
+```
+
+User config:
+
+```json
+{
+  "mcpServers": {
+    "logistics-tracking": {
+      "type": "streamable-http",
+      "url": "https://your-server.com/mcp"
+    }
+  }
+}
+```
 
 ## Available Tools
 
@@ -89,9 +139,9 @@ Get a human-readable explanation of a tracking status code.
 | China to SE Asia | 7-15 days | 3-7 days |
 | China to Japan/Korea | 5-10 days | 3-5 days |
 
-## Status Codes Explained
+## Status Codes
 
-- **InfoReceived**: Carrier has the info but hasn't picked up the package (1-3 day wait)
+- **InfoReceived**: Carrier has the info but hasn't picked up the package
 - **InTransit**: Package is moving through the logistics network
 - **CustomsClearance**: Going through customs (3-7 business days typical)
 - **OutForDelivery**: Final delivery attempt today
@@ -101,7 +151,8 @@ Get a human-readable explanation of a tracking status code.
 
 ## Tips
 
-1. If `TRACK17_API_KEY` is not set, the server falls back to RTB56 (limited accuracy)
-2. For best results, wait 24-48 hours after shipping before first query
-3. Query no more than once every 2 hours per tracking number to avoid rate limits
-4. Batch tracking is more efficient for multiple packages
+1. Run `npx playwright install chromium` once after install for no-key tracking.
+2. With API key, supports 3100+ carriers with auto-detection.
+3. Query 24-48 hours after shipping to avoid empty results.
+4. Wait at least 2 hours between queries for the same number.
+5. Use `batch_track` for multiple packages — more efficient.

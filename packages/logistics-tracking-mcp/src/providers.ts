@@ -1,5 +1,7 @@
 /**
- * Tracking data providers: 17track API + RTB56 fallback.
+ * Tracking data providers:
+ *   1. 17track official API (requires TRACK17_API_KEY)
+ *   2. Playwright browser automation (no key needed, requires `playwright` + chromium)
  */
 
 export interface TrackingResult {
@@ -142,80 +144,68 @@ export async function queryTracking(
 }
 
 /**
- * Fallback: Query tracking via RTB56 (no API key needed).
+ * No-Key tracking via Playwright (real browser).
+ * Playwright navigates to 17track and intercepts the API response,
+ * bypassing all anti-bot checks that pure Node.js cannot pass.
  */
-export async function queryTrackingFallback(
+export async function queryTrackingNoKey(
   trackingNumber: string,
-  language: string = "en",
+  _language: string = "en",
 ): Promise<TrackingResult> {
   try {
-    const queryUrl = "http://gdyy.rtb56.com/track_query.aspx";
+    const { queryTrackingWithPlaywright, isPlaywrightAvailable } = await import("./17track-playwright.js");
 
-    const formData = new URLSearchParams();
-    formData.append("txtOrderNo", trackingNumber);
-    formData.append("language", language === "zh" ? "zh-CN" : "en-US");
-
-    const response = await fetch(queryUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "User-Agent":
-          "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
-      },
-      body: formData.toString(),
-      signal: AbortSignal.timeout(15000),
-    });
-
-    if (!response.ok) {
-      throw new Error(`RTB56 query failed: HTTP ${response.status}`);
+    if (!await isPlaywrightAvailable()) {
+      return {
+        status: "SetupRequired",
+        timeline: [],
+        rawData: {
+          error: "playwright_not_installed",
+          setup: [
+            "npm install playwright",
+            "npx playwright install chromium",
+          ],
+          note: "No TRACK17_API_KEY configured. To track without an API key, install Playwright (a headless browser). Run the two commands above, then try again.",
+          webUrl: `https://t.17track.net/en#nums=${trackingNumber}`,
+        },
+      };
     }
 
-    const html = await response.text();
-    const events = parseRTB56Html(html);
+    const result = await queryTrackingWithPlaywright(trackingNumber);
+    if (result) return result;
 
-    return {
-      status: events.length > 0 ? "InTransit" : "InfoReceived",
-      currentLocation: events[0]?.location,
-      timeline: events,
-    };
-  } catch {
-    // If RTB56 also fails, return a helpful message
     return {
       status: "Unknown",
       timeline: [],
       rawData: {
-        note: "Could not query tracking info. Set TRACK17_API_KEY env var for best results, or try https://t.17track.net/en#nums=" +
-          trackingNumber,
+        note: `Playwright tracking returned no data. Try: https://t.17track.net/en#nums=${trackingNumber}`,
+        webUrl: `https://t.17track.net/en#nums=${trackingNumber}`,
+      },
+    };
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : String(e);
+    if (msg.includes("Cannot find module") || msg.includes("ERR_MODULE_NOT_FOUND")) {
+      return {
+        status: "SetupRequired",
+        timeline: [],
+        rawData: {
+          error: "playwright_not_installed",
+          setup: [
+            "npm install playwright",
+            "npx playwright install chromium",
+          ],
+          note: "Playwright is not installed. Run the commands above to enable no-key tracking.",
+          webUrl: `https://t.17track.net/en#nums=${trackingNumber}`,
+        },
+      };
+    }
+    return {
+      status: "Unknown",
+      timeline: [],
+      rawData: {
+        note: `Tracking error: ${msg}`,
+        webUrl: `https://t.17track.net/en#nums=${trackingNumber}`,
       },
     };
   }
-}
-
-/**
- * Parse RTB56 HTML response to extract tracking events.
- */
-function parseRTB56Html(html: string): TrackingEvent[] {
-  const events: TrackingEvent[] = [];
-
-  // Match table rows with tracking data
-  const rowRegex =
-    /<tr[^>]*>\s*<td[^>]*>([^<]*)<\/td>\s*<td[^>]*>([^<]*)<\/td>\s*<td[^>]*>([^<]*)<\/td>/gi;
-  let match;
-
-  while ((match = rowRegex.exec(html)) !== null) {
-    const time = match[1]?.trim();
-    const location = match[2]?.trim();
-    const description = match[3]?.trim();
-
-    if (time && description) {
-      events.push({
-        time,
-        location: location || "Unknown",
-        description,
-        status: "transit",
-      });
-    }
-  }
-
-  return events;
 }
