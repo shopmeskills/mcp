@@ -8,6 +8,7 @@
     "dev": "pnpm -r run dev",
     "lint": "pnpm -r run lint",
     "clean": "pnpm -r exec rm -rf build dist",
+    "ship": "./scripts/deploy.sh",
     "publish-npm": "./scripts/publish-all.sh",
     "publish-skills": "./scripts/publish-skills.sh"
   },

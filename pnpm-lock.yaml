@@ -13,12 +13,13 @@ importers:
       '@modelcontextprotocol/sdk':
         specifier: ^1.26.0
         version: 1.26.0(zod@4.3.6)
-      playwright:
-        specifier: ^1.50.0
-        version: 1.58.2
       zod:
         specifier: ^4.3.6
         version: 4.3.6
+    optionalDependencies:
+      playwright:
+        specifier: ^1.52.0
+        version: 1.58.2
     devDependencies:
       '@types/node':
         specifier: ^25.2.3
@@ -1021,13 +1022,15 @@ snapshots:
 
   pkce-challenge@5.0.1: {}
 
-  playwright-core@1.58.2: {}
+  playwright-core@1.58.2:
+    optional: true
 
   playwright@1.58.2:
     dependencies:
       playwright-core: 1.58.2
     optionalDependencies:
       fsevents: 2.3.2
+    optional: true
 
   proxy-addr@2.0.7:
     dependencies:

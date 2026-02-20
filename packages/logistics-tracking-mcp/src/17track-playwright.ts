@@ -240,8 +240,8 @@ export async function queryTrackingWithPlaywright(
       rawData: {
         source: "playwright",
         note: isSuccess
-          ? `该单号暂无物流轨迹，可能尚未揽收或单号有误`
-          : `restapi 返回 code ${lastMetaCode ?? "unknown"}`,
+          ? "No tracking events yet for this number; it may not be picked up or the number may be incorrect."
+          : `restapi returned code ${lastMetaCode ?? "unknown"}`,
         webUrl: `https://t.17track.net/en#nums=${trackingNumber}`,
       },
     };

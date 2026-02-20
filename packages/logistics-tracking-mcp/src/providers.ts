@@ -1,7 +1,5 @@
 /**
- * Tracking data providers:
- *   1. 17track official API (requires TRACK17_API_KEY)
- *   2. Playwright browser automation (no key needed, requires `playwright` + chromium)
+ * Tracking data providers: 17track API (with key) or Playwright-based tracking (no key).
  */
 
 export interface TrackingResult {
@@ -143,69 +141,30 @@ export async function queryTracking(
   };
 }
 
+const TRACK_URL = "https://t.17track.net/en#nums=";
+
 /**
- * No-Key tracking via Playwright (real browser).
- * Playwright navigates to 17track and intercepts the API response,
- * bypassing all anti-bot checks that pure Node.js cannot pass.
+ * No-Key path: use Playwright to open 17track in a real browser and read tracking data.
+ * If Playwright is not available, returns a result with a note to set TRACK17_API_KEY or use the website.
  */
 export async function queryTrackingNoKey(
   trackingNumber: string,
   _language: string = "en",
 ): Promise<TrackingResult> {
+  let result: TrackingResult | null = null;
   try {
-    const { queryTrackingWithPlaywright, isPlaywrightAvailable } = await import("./17track-playwright.js");
-
-    if (!await isPlaywrightAvailable()) {
-      return {
-        status: "SetupRequired",
-        timeline: [],
-        rawData: {
-          error: "playwright_not_installed",
-          setup: [
-            "npm install playwright",
-            "npx playwright install chromium",
-          ],
-          note: "No TRACK17_API_KEY configured. To track without an API key, install Playwright (a headless browser). Run the two commands above, then try again.",
-          webUrl: `https://t.17track.net/en#nums=${trackingNumber}`,
-        },
-      };
-    }
-
-    const result = await queryTrackingWithPlaywright(trackingNumber);
-    if (result) return result;
-
-    return {
-      status: "Unknown",
-      timeline: [],
-      rawData: {
-        note: `Playwright tracking returned no data. Try: https://t.17track.net/en#nums=${trackingNumber}`,
-        webUrl: `https://t.17track.net/en#nums=${trackingNumber}`,
-      },
-    };
-  } catch (e) {
-    const msg = e instanceof Error ? e.message : String(e);
-    if (msg.includes("Cannot find module") || msg.includes("ERR_MODULE_NOT_FOUND")) {
-      return {
-        status: "SetupRequired",
-        timeline: [],
-        rawData: {
-          error: "playwright_not_installed",
-          setup: [
-            "npm install playwright",
-            "npx playwright install chromium",
-          ],
-          note: "Playwright is not installed. Run the commands above to enable no-key tracking.",
-          webUrl: `https://t.17track.net/en#nums=${trackingNumber}`,
-        },
-      };
-    }
-    return {
-      status: "Unknown",
-      timeline: [],
-      rawData: {
-        note: `Tracking error: ${msg}`,
-        webUrl: `https://t.17track.net/en#nums=${trackingNumber}`,
-      },
-    };
+    const { queryTrackingWithPlaywright } = await import("./17track-playwright.js");
+    result = await queryTrackingWithPlaywright(trackingNumber);
+  } catch {
+    // Playwright not installed or failed to load
   }
+  if (result) return result;
+  return {
+    status: "Unknown",
+    timeline: [],
+    rawData: {
+      note: `Playwright is not available. Set TRACK17_API_KEY for API tracking, or check ${TRACK_URL}${trackingNumber}`,
+      webUrl: TRACK_URL + trackingNumber,
+    },
+  };
 }

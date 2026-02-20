@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
 /**
- * HTTP server entry for logistics-tracking MCP (方案 A: 你部署带 Key 的服务，用户通过 URL 连接，无需自配 Key).
+ * HTTP server entry for logistics-tracking MCP.
+ * Deploy with TRACK17_API_KEY so clients can connect via URL without their own key.
  * Run: npx @shopme/logistics-tracking-mcp serve
- * Or: MCP_TRANSPORT=http node build/server-http.js
  * Set TRACK17_API_KEY in env on the server so users don't need any key.
  */
 
