@@ -11,7 +11,7 @@
     "dev": "tsx watch src/index.ts"
   },
   "files": ["build"],
-  "keywords": ["mcp", "taobao", "tmall", "jd", "pdd", "1688", "aliexpress", "douyin", "xhs", "ecommerce", "product-search", "shopme"],
+  "keywords": ["mcp", "taobao", "tmall", "xhs", "xiaohongshu", "ecommerce", "product-search", "shopme"],
   "author": "shopme",
   "license": "MIT",
   "publishConfig": {

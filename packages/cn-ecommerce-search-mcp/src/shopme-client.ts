@@ -38,15 +38,7 @@ async function post<T>(path: string, body: Record<string, unknown>): Promise<T> 
 
 // ── Search ──────────────────────────────────────────────────────
 
-export type Platform =
-  | "xhs"
-  | "taobao"
-  | "tmall"
-  | "jd"
-  | "pdd"
-  | "douyin"
-  | "aliexpress"
-  | "ali1688";
+export type Platform = "xhs" | "taobao" | "tmall";
 
 export type SortBy =
   | "relevance"

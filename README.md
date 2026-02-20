@@ -85,11 +85,11 @@ China Post, China EMS, SF Express, Yanwen, Cainiao, YTO, STO, ZTO, Yunda, Best E
 
 ---
 
-## CN E-commerce Search (8 platforms)
+## CN E-commerce Search (Taobao, Tmall, XHS)
 
-Search products across 8 Chinese e-commerce platforms via Shopme unified database. **Zero-config — no API keys required.**
+Search products across Chinese e-commerce platforms via Shopme unified database. **Zero-config — no API keys required.**
 
-Supported: Taobao, Tmall, JD, PDD, 1688, AliExpress, Douyin, XHS (小红书)
+Supported: Taobao (淘宝), Tmall (天猫), XHS (小红书)
 
 ```json
 {

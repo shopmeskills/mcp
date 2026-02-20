@@ -11,12 +11,9 @@ const server = new McpServer({
   version: "2.0.0",
 });
 
-const platformEnum = z
-  .enum(["xhs", "taobao", "tmall", "jd", "pdd", "douyin", "aliexpress", "ali1688", "1688"])
-  .transform((v) => (v === "1688" ? "ali1688" : v) as Exclude<typeof v, "1688">);
+const platformEnum = z.enum(["xhs", "taobao", "tmall"]);
 
-const PLATFORM_DESC =
-  "来源平台过滤。xhs=小红书, taobao=淘宝, tmall=天猫, jd=京东, pdd=拼多多, douyin=抖音, aliexpress=速卖通, ali1688/1688=1688批发";
+const PLATFORM_DESC = "来源平台过滤。xhs=小红书, taobao=淘宝, tmall=天猫";
 
 // ── Tool 1: search_products ─────────────────────────────────────
 
@@ -37,7 +34,7 @@ server.tool(
     try {
       const result = await searchProducts({
         keyword,
-        platform: platform as any,
+        platform,
         sort_by,
         page,
         limit,
@@ -89,7 +86,7 @@ server.tool(
       const result = await getProductDetail({
         product_id,
         url,
-        platform: platform as any,
+        platform,
       });
 
       if (!result.success) {

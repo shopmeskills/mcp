@@ -1,18 +1,9 @@
 /**
  * Parse product links from Chinese e-commerce platforms.
- * Supports: Taobao, Tmall, 1688, AliExpress, XHS, JD, PDD, Douyin
+ * Supports: Taobao, Tmall, XHS (小红书)
  */
 
-export type Platform =
-  | "taobao"
-  | "tmall"
-  | "ali1688"
-  | "aliexpress"
-  | "xhs"
-  | "jd"
-  | "pdd"
-  | "douyin"
-  | "unknown";
+export type Platform = "taobao" | "tmall" | "xhs" | "unknown";
 
 export interface LinkInfo {
   platform: Platform;
@@ -44,62 +35,6 @@ const PLATFORM_PATTERNS: {
     ],
     idExtractors: [
       (url) => new URL(url).searchParams.get("id"),
-      (url) => url.match(/[?&]id=(\d+)/)?.[1] ?? null,
-    ],
-  },
-  {
-    platform: "ali1688",
-    patterns: [/detail\.1688\.com/i, /m\.1688\.com/i],
-    idExtractors: [
-      (url) => url.match(/offer\/(\d+)\.html/i)?.[1] ?? null,
-    ],
-  },
-  {
-    platform: "aliexpress",
-    patterns: [
-      /aliexpress\.com\/item/i,
-      /aliexpress\.com\/i\//i,
-      /aliexpress\.\w+\/item/i,
-    ],
-    idExtractors: [
-      (url) => url.match(/\/(?:item\/|i\/)(\d+)(?:\.html)?/i)?.[1] ?? null,
-    ],
-  },
-  {
-    platform: "jd",
-    patterns: [
-      /item\.jd\.com/i,
-      /m\.jd\.com\/product/i,
-      /product\.jd\.com/i,
-    ],
-    idExtractors: [
-      (url) => url.match(/\/(\d+)\.html/i)?.[1] ?? null,
-      (url) => url.match(/\/product\/(\d+)/i)?.[1] ?? null,
-      (url) => url.match(/wareId=(\d+)/i)?.[1] ?? null,
-    ],
-  },
-  {
-    platform: "pdd",
-    patterns: [
-      /mobile\.yangkeduo\.com/i,
-      /yangkeduo\.com\/goods/i,
-      /pinduoduo\.com/i,
-    ],
-    idExtractors: [
-      (url) => new URL(url).searchParams.get("goods_id"),
-      (url) => url.match(/goods(?:_id)?[/=](\d+)/i)?.[1] ?? null,
-    ],
-  },
-  {
-    platform: "douyin",
-    patterns: [
-      /haohuo\.jinritemai\.com/i,
-      /buyin\.jinritemai\.com/i,
-      /mall\.douyin\.com/i,
-    ],
-    idExtractors: [
-      (url) => new URL(url).searchParams.get("id"),
-      (url) => url.match(/product\/(\d+)/i)?.[1] ?? null,
       (url) => url.match(/[?&]id=(\d+)/)?.[1] ?? null,
     ],
   },
