@@ -7,7 +7,7 @@ description: >
 license: MIT
 metadata:
   author: shopme
-  version: "1.0.0"
+  version: "1.0.1"
   mcp-server: "@shopmeagent/logistics-tracking-mcp"
 ---
 

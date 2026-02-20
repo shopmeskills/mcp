@@ -83,6 +83,37 @@ npx skills add shopmeskills/mcp
 
 China Post, China EMS, SF Express, Yanwen, Cainiao, YTO, STO, ZTO, Yunda, Best Express, DHL, FedEx, UPS, USPS, Royal Mail, Japan Post, Korea Post, Australia Post, Singapore Post, Hong Kong Post, Aramex, DPD, and more.
 
+---
+
+## CN E-commerce Search (8 platforms)
+
+Search products across 8 Chinese e-commerce platforms via Shopme unified database. **Zero-config — no API keys required.**
+
+Supported: Taobao, Tmall, JD, PDD, 1688, AliExpress, Douyin, XHS (小红书)
+
+```json
+{
+  "mcpServers": {
+    "cn-ecommerce-search": {
+      "command": "npx",
+      "args": ["-y", "@shopmeagent/cn-ecommerce-search-mcp"]
+    }
+  }
+}
+```
+
+### Available Tools
+
+| Tool | Description |
+|------|-------------|
+| `search_products` | Search by keyword, filter by platform, sort by price/sales/relevance |
+| `get_product_detail` | Get full details by product ID or URL |
+| `parse_product_link` | Parse product URL to identify platform and ID |
+
+See `skills/cn-ecommerce-search/SKILL.md` for full details.
+
+---
+
 ## Development
 
 ```bash
@@ -94,11 +125,13 @@ pnpm build
 
 # Develop logistics MCP
 cd packages/logistics-tracking-mcp && pnpm dev
+
+# Develop CN e-commerce search MCP
+cd packages/cn-ecommerce-search-mcp && pnpm dev
 ```
 
 ## Upcoming Skills (in development)
 
-- `cn-ecommerce-search` — Search products on Taobao, 1688, AliExpress
 - `visual-product-search` — Find products by image
 - `cross-border-price-compare` — Price comparison with landed cost
 - `product-recommendation` — AI-powered product scoring
