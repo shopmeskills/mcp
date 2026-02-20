@@ -24,7 +24,6 @@ echo ""
 
 SKILLS=(
   "skills/logistics-tracking"
-  "skills/us-domestic-tracking"
   "skills/cn-ecommerce-search"
   "skills/visual-product-search"
   "skills/xiaohongshu-data"

@@ -4,7 +4,7 @@ MCP server for international package tracking. Supports 3100+ carriers via [17tr
 
 ## Quick Start
 
-**Zero-config** (uses Playwright headless browser when no API key is set):
+**Zero-config** (uses Playwright headless browser when no API key is set; first run may need `npx playwright install chromium`):
 
 ```json
 {

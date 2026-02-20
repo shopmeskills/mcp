@@ -4,37 +4,7 @@ Cross-border e-commerce toolkit for AI agents. Provides MCP servers (tools) and 
 
 ---
 
-## US Domestic Tracking (Government / OpenClaw)
-
-For **US and European government** or enterprise: track **US domestic** packages (UPS, USPS) via **official APIs only**. No 17track or third-party aggregators. For use in **OpenClaw** and other MCP clients.
-
-**OpenClaw MCP config example:**
-
-```json
-{
-  "mcpServers": {
-    "us-domestic-tracking": {
-      "command": "npx",
-      "args": ["-y", "@shopmeagent/us-domestic-tracking-mcp"],
-      "env": {
-        "USPS_CONSUMER_KEY": "your-usps-consumer-key",
-        "USPS_CONSUMER_SECRET": "your-usps-consumer-secret",
-        "UPS_CLIENT_ID": "your-ups-client-id",
-        "UPS_CLIENT_SECRET": "your-ups-client-secret"
-      }
-    }
-  }
-}
-```
-
-- **USPS**: [developers.usps.com](https://developers.usps.com) (Tracking 3.2, OAuth). Legacy Web Tools shut down Jan 2026.
-- **UPS**: [developer.ups.com](https://developer.ups.com) (Tracking API, OAuth).
-
-Tools: `track_package`, `detect_carrier`, `batch_track`, `explain_status`. See `skills/us-domestic-tracking/SKILL.md`.
-
----
-
-## International Logistics Tracking (3100+ carriers)
+## Logistics Tracking (3100+ carriers)
 
 Track international packages by tracking number. Powered by 17track — supports 3100+ carriers worldwide.
 
@@ -122,10 +92,7 @@ pnpm install
 # Build all packages
 pnpm build
 
-# Develop US domestic MCP
-cd packages/us-domestic-tracking-mcp && pnpm dev
-
-# Develop international logistics MCP
+# Develop logistics MCP
 cd packages/logistics-tracking-mcp && pnpm dev
 ```
 
